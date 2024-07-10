@@ -1,15 +1,12 @@
 package ru.kata.spring.boot_security.demo.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
-import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,7 +30,7 @@ public class AdminController {
 
     @GetMapping
     public String showAllUsers(ModelMap modelMap, @AuthenticationPrincipal User user) {
-        modelMap.addAttribute("users", userService.showUsers());
+        modelMap.addAttribute("users", userService.getAllUsers());
         modelMap.addAttribute("user", user);
         return "admin/admin";
     }

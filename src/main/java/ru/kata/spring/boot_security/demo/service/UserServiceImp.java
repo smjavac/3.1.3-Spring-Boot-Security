@@ -15,6 +15,7 @@ import ru.kata.spring.boot_security.demo.repository.UserRepository;
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 public class UserServiceImp implements UserService{
 
     private final UserRepository userRepository;
@@ -34,7 +35,6 @@ public class UserServiceImp implements UserService{
     }
 
     @Override
-    @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
         if (user == null) {
@@ -49,10 +49,12 @@ public class UserServiceImp implements UserService{
     }
 
     @Override
-    public List<User> showUsers() {
-        System.out.println("You are getting showUsers METHOD");return userRepository.findAll();}
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
 
     @Override
+    @Transactional
     public void save(User user) {
         user.setRoles(user.getRoles());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -79,7 +81,6 @@ public class UserServiceImp implements UserService{
     }
 
     @Override
-    @Transactional
     public List<Role> listRoles() {
         return roleRepository.findAll();
     }
